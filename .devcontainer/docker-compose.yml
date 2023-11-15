@@ -8,9 +8,10 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
     hostname: nyu
-    container_name: cloud-computing-assignment
+    container_name: cloud-computing-project
     volumes:
       - ..:/app
+      - ~/.aws/credentials:/home/vscode/.aws/credentials
     command: sleep infinity
     environment:
       PORT: 8080
