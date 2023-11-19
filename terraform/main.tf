@@ -39,6 +39,10 @@ module "sqs" {
   sqs_name = var.sqs_name
 }
 
+module "dynamo" {
+  source = "./dynamo"
+}
+
 module "lambda" {
   source = "./lambda"
 
@@ -46,11 +50,15 @@ module "lambda" {
   lf_filenames      = var.lf_filenames
   lf_function_names = var.lf_function_names
 
-  sqs_endpoint        = module.sqs.sqs_endpoint
-  opensearch_endpoint = module.opensearch.opensearch_endpoint
+  sqs_endpoint             = module.sqs.sqs_endpoint
+  opensearch_endpoint      = module.opensearch.opensearch_endpoint
+  message_table_arn        = module.dynamo.message_table_arn
+  message_table_stream_arn = module.dynamo.message_table_stream_arn
+
   depends_on = [
     module.sqs,
     module.opensearch,
+    module.dynamo
   ]
 }
 
