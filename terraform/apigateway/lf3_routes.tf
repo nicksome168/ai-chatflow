@@ -9,18 +9,10 @@ resource "aws_apigatewayv2_integration" "lf3" {
 
 }
 
-resource "aws_apigatewayv2_route" "lf3_route_get_hello" {
+resource "aws_apigatewayv2_route" "lf3_route_post" {
   api_id = aws_apigatewayv2_api.main.id
 
-  route_key = "GET /hello"
-  target    = "integrations/${aws_apigatewayv2_integration.lf3.id}"
-
-}
-
-resource "aws_apigatewayv2_route" "lf3_route_post_hello" {
-  api_id = aws_apigatewayv2_api.main.id
-
-  route_key = "POST /hello"
+  route_key = "POST /search_msg"
   target    = "integrations/${aws_apigatewayv2_integration.lf3.id}"
 
 }
