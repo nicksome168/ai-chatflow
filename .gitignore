@@ -160,10 +160,9 @@ cython_debug/
 #.idea/
 .DS_Store
 
-terraform/.terraform/*
-terraform/.terraform*
-terraform/*/.terraform*
-terraform/*/.terraform/*
+*/**/terraform*
+*/**/.terraform*
+*/**/.terraform
 */**/terraform.tfstate
 
 lambda_functions/*/*.zip
