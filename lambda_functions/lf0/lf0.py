@@ -1,8 +1,8 @@
-import os
-
-VAR = os.getenv('ENV_VAR')
+import json
 
 def lambda_handler(event, context):
-    return { 
-        'message' : 'Hello World with {}!'.format(VAR)
+    response = {
+        "statusCode": 200,
+        "body": json.dumps({"message": "Hello World!"})
     }
+    return response
