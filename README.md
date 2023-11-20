@@ -36,6 +36,12 @@ Check if the cluster is working
 ```
 kubectl get nodes
 ```
+
+### Deploy on EKS
+If you want your pod to access aws resources, you need to create a service account and associate it with a IAM role. The role and the OICD provider association is taken care by my terraform. All you need is to add the desired IAM policies in `terraform/eks/11-sa-iam.tf`. The terraform will create a AWS IAM role. To associate the IAM role with a service account, add the following annotation to the service account yaml. You can find the role arn in your aws portal.
+```bash
+eks.amazonaws.com/role-arn: arn:aws:iam::<YOUR_ACCOUNT_ID>:role/eks-sa
+```
 ### Cleanup
 delete all resources on eks cluster
 ```
