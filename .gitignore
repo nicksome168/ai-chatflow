@@ -166,4 +166,5 @@ cython_debug/
 */**/terraform.tfstate
 
 lambda_functions/*/*.zip
+*/**/*.zip
 lambda_functions/*/package
