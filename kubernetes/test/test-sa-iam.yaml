@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backend-sa
+  namespace: default
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::764559909612:role/eks-sa
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-cli
+spec:
+  selector:
+    matchLabels:
+      app: aws-cli
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: aws-cli
+    spec:
+      serviceAccountName: backend-sa
+      containers:
+        - name: aws-cli
+          image: "amazon/aws-cli"
+          command: ["/bin/sh", "-ec", "sleep 1000"]
