@@ -3,7 +3,7 @@ FROM python:3.9-slim
 
 # Add any tools that are needed beyond Python 3.11
 RUN apt-get update && \
-    apt-get install -y sudo vim make git zip tree curl wget jq procps net-tools && \
+    apt-get install -y sudo vim make git zip tree curl wget jq procps net-tools groff mandoc && \
     apt-get install -y gcc libpq-dev && \
     apt-get autoremove -y && \
     apt-get clean -y
@@ -33,6 +33,17 @@ RUN apt-get install unzip wget -y \
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \
     && sudo ./aws/install
+
+## install minikube
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+    && sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
+    && echo "alias k='/usr/local/bin/kubectl'" >> /home/$USERNAME/.bash_aliases \
+    && echo "alias kns='kubectl config set-context --current --namespace'" >> /home/$USERNAME/.bash_aliases
+
+## install helm
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \
+    && chmod 700 get_helm.sh \
+    && ./get_helm.sh
 
 # Set up the Python development environment
 WORKDIR /app
