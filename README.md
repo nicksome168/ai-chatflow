@@ -36,3 +36,13 @@ Check if the cluster is working
 ```
 kubectl get nodes
 ```
+### Cleanup
+delete all resources on eks cluster
+```
+kubectl delete -f k8s/*.yaml
+```
+uninstall eks cluster
+```
+cd terraform
+terraform destroy
+```
