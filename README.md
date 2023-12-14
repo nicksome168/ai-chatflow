@@ -13,6 +13,7 @@ Final project for CS-GY 9223 Cloud Computing course at NYU.
 Switch AWS profile if needed
 ```
 export AWS_DEFAULT_PROFILE=<user>
+export AWS_DEFAULT_REGION=us-east-1
 ```
 
 Check if you are using the right AWS profile
