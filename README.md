@@ -25,7 +25,8 @@ Apply the terraform configuration in `terraform` and it will create a eks cluste
 ```
 cd terraform
 terraform init
-terraform apply
+terraform apply -var-file ../variables.tfvars
+
 ```
 ### Setup EKS cluster
 Setup kubeconfig for EKS cluster
@@ -51,5 +52,5 @@ kubectl delete -f k8s/*.yaml
 uninstall eks cluster
 ```
 cd terraform
-terraform destroy
+terraform destroy -var-file ../variables.tfvars
 ```
