@@ -1,6 +1,8 @@
 variable "message_table_stream_arn" {}
 variable "message_table_arn" {}
-
+variable "lf4_root" {
+  default = "../../lambda_functions/lf4"
+}
 resource "aws_iam_role" "lf4_role" {
   name = "lf4_role" # configured in opensearch's access_policies
 
@@ -63,9 +65,22 @@ resource "aws_iam_role_policy_attachment" "lf4_policy" {
   policy_arn = each.value
 }
 
+resource "null_resource" "lf4_dependencies" {
+  provisioner "local-exec" {
+    command = "pip install -r ${var.lf4_root}/requirements.txt -t ${var.lf4_root}"
+  }
+
+  triggers = {
+    dependencies_versions = filemd5("${var.lf4_root}/requirements.txt")
+    source_versions       = filemd5("${var.lf4_root}/lf4.py")
+  }
+}
+
+
 data "archive_file" "lf4" {
+  depends_on  = [null_resource.lf4_dependencies]
   type        = "zip"
-  source_dir  = "../../lambda_functions/lf4/package"
+  source_dir  = var.lf4_root
   output_path = "../../lambda_functions/lf4/lf4.zip"
 }
 
@@ -82,6 +97,14 @@ resource "aws_lambda_function" "lf4" {
     variables = {
       OPENSEARCH_ENDPOINT = var.opensearch_endpoint
     }
+  }
+}
+
+# clean up the dependencies
+resource "null_resource" "lf4_cleanup" {
+  depends_on = [aws_lambda_function.lf4]
+  provisioner "local-exec" {
+    command = "rm -rf ${var.lf4_root}/*/ ${var.lf4_root}/lf4.zip ${var.lf4_root}/six.py"
   }
 }
 

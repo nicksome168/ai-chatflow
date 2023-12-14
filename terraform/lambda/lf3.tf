@@ -1,3 +1,7 @@
+variable "lf3_root" {
+  default = "../../lambda_functions/lf3"
+}
+
 resource "aws_iam_role" "lf3_role" {
   name = "lf3_role" # configured in opensearch's access_policies
 
@@ -23,6 +27,27 @@ resource "aws_iam_role_policy_attachment" "lf3_policy" {
   role       = aws_iam_role.lf3_role.name
   policy_arn = each.value
 }
+
+resource "null_resource" "lf3_dependencies" {
+  provisioner "local-exec" {
+    command = "pip install -r ${var.lf3_root}/requirements.txt -t ${var.lf3_root}"
+  }
+
+  triggers = {
+    dependencies_versions = filemd5("${var.lf3_root}/requirements.txt")
+    source_versions       = filemd5("${var.lf3_root}/lf3.py")
+  }
+}
+
+
+data "archive_file" "lf3" {
+  depends_on  = [null_resource.lf3_dependencies]
+  type        = "zip"
+  source_dir  = var.lf3_root
+  output_path = "../../lambda_functions/lf3/lf3.zip"
+}
+
+
 resource "aws_lambda_function" "lf3" {
   function_name = element(var.lf_function_names, 2)
   filename      = element(var.lf_filenames, 2)
@@ -34,6 +59,14 @@ resource "aws_lambda_function" "lf3" {
     variables = {
       OPENSEARCH_ENDPOINT = var.opensearch_endpoint
     }
+  }
+}
+
+# clean up the dependencies
+resource "null_resource" "lf3_cleanup" {
+  depends_on = [aws_lambda_function.lf3]
+  provisioner "local-exec" {
+    command = "rm -rf ${var.lf3_root}/*/ ${var.lf3_root}/lf3.zip ${var.lf3_root}/six.py"
   }
 }
 
