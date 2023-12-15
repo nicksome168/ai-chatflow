@@ -17,7 +17,7 @@ const Login = () => {
     useEffect(() => {
         // Listen for server responses
         socket.on('login_response', (response) => {
-            if (response.success) {
+            if (response.message === 'success') {
                 navigate('/select-partner'); // Navigate on successful login
             } else {
                 alert('Login failed'); // Handle login failure

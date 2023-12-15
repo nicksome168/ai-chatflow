@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
     socket.on('login', (params) => {
         var userName = params['userName'];
         var password = params['password'];
-        socket.emit('login_response', params);
+        //socket.emit('login_response', params);
         User.userLoginAuth(socket, userName, password);
     });
 
@@ -30,8 +30,8 @@ io.on('connection', (socket) => {
         var password = params['password'];
         var firstName = params['firstName'];
         var lastName = params['lastName'];
+        //socket.emit('signup_response', params);
         User.createNewUser(socket, email, userName, password, firstName, lastName);
-        
     });
     
     socket.on('joinRoom', ({ room }) => {

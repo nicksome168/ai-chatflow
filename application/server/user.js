@@ -18,7 +18,6 @@ function addUser(socket, email, userName, password, firstName, lastName, token) 
     };
 
     config.dynamodb.put(user, (error) => {
-
         if(error){
          console.log("Error: ", error);
         }else{
