@@ -9,4 +9,4 @@ function generateId(len) {
     return result.join('');
 }
 
-exports.makeid = makeid;
+exports.generateId = generateId();
