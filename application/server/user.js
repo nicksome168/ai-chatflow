@@ -57,47 +57,5 @@ function userLoginAuth(socket, userName, password) {
     });
 }
 
-async function tokenAuth(userName, token) {
-    var params = {
-        TableName: 'users',
-        Key: {
-            userName: { S: userName }
-        }
-    }
-
-    const tokenAuthCommand = new GetItemCommand(params);
-    const data = await dynamoDbClient.send(tokenAuthCommand);
-    if (data.Item.token.S !== token) {
-        throw new Error('the token is expired or invalid');
-    }
-}
-
-function userLoginAuth(socket, userName, password) {
-    var params = {
-        TableName: 'users',
-        Key: {
-            userName: userName
-        }
-    };
-
-    const userLoginAuthCommand = new GetItemCommand(params);
-    dynamoDbClient.send(userLoginAuthCommand).then((data) => {
-        if (typeof data.Item != 'undefined' && data.Item.password.S === password) {
-            var resMap = {
-                "message": "Success!",
-                "token": data.Item.token.S
-            };
-            socket.emit('login_response', resMap);
-        }
-
-    }, (error) => {
-        var resMap = {
-            "message": error
-        };
-        socket.emit('login_response', resMap);
-    });
-}
-
 exports.userLoginAuth = userLoginAuth;
-exports.tokenAuth = tokenAuth;
 exports.createNewUser = createNewUser;
