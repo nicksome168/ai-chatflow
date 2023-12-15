@@ -30,8 +30,8 @@ io.on('connection', (socket) => {
         var password = params['password'];
         var firstName = params['firstName'];
         var lastName = params['lastName'];
-        socket.emit('signup_response', params);
-        User.createNewUser(socket, email, userName, password, firstName, lastName);
+        response = User.createNewUser(socket, email, userName, password, firstName, lastName);
+        socket.emit('signup_response', response);
     });
 
     socket.on('joinRoom', ({ room }) => {

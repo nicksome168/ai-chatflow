@@ -21,7 +21,11 @@ function addUser(socket, email, userName, password, firstName, lastName, token) 
         if(error){
          console.log("Error: ", error);
         }else{
-         console.log("user added! success!");
+         var resMap = {
+            "action": "signup",
+            "message": "success"
+         }
+         return resMap;
         }
      });
 }
