@@ -3,7 +3,7 @@
 // const { DynamoDBClient, PutItemCommand, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 // const dynamoDbClient = new DynamoDBClient({ region: "us-east-1" });
 
-const dynamodb = require('./aws-config');
+const config = require('./aws-config');
 
 function joinRoom(socket, room) {
     var params = {
@@ -14,8 +14,7 @@ function joinRoom(socket, room) {
             user2: room.split("-")[1]
         }
     };
-
-    dynamodb.put(params, (error) => {
+    config.dynamodb.put(params, (error) => {
 
        if(error){
         console.log("Error: ", error);

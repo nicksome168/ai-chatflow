@@ -1,7 +1,7 @@
 "use strict";
 
-const dynamodb = require('./aws-config');
-const lambda = require('./aws-config');
+const config = require('./aws-config');
+// const lambda = require('./aws-config');
 const {generateId} = require('./helper');
 
 
@@ -18,7 +18,7 @@ function sendMessage(room, sender, message, recipient) {
         }
     };
 
-    dynamodb.put(params, (error) => {
+    config.dynamodb.put(params, (error) => {
 
        if(error){
         console.log("Error: ", error);
@@ -35,13 +35,13 @@ async function summarise(room, messages, userName){
         Payload: JSON.stringify({ room: room, messages: messages, userName: userName }),
     };
 
-    lambda.invoke(params, (err, data) => {
+    config.lambda.invoke(params, (err, data) => {
         if (err) {
           console.error('Error invoking Lambda function:', err);
         } else {
           // Process the response from the Lambda function
         //   const response = JSON.parse(data.Payload);
-          console.log('Lambda function response:', data.Item);
+        //   console.log('Lambda function response:', response);
         }
       });
 }

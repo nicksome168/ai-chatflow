@@ -2,7 +2,7 @@
 
 // const { DynamoDBClient, PutItemCommand, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const { generateId } = require("./helper");
-const dynamodb = require('./aws-config');
+const config = require('./aws-config');
 
 function addUser(socket, email, userName, password, firstName, lastName, token) {
     var user = {
@@ -16,7 +16,7 @@ function addUser(socket, email, userName, password, firstName, lastName, token) 
         }
     };
 
-    dynamodb.put(user, (error) => {
+    config.dynamodb.put(user, (error) => {
 
         if(error){
          console.log("Error: ", error);
@@ -24,13 +24,14 @@ function addUser(socket, email, userName, password, firstName, lastName, token) 
          var resMap = {
             "action": "signup",
             "message": "success"
-         }
-         return resMap;
+         };
+         socket.emit('signup_response', resMap);
+         console.log(resMap);
         }
      });
 }
 
-function createNewUser(socket, email, userName, password, firstName, lastName) {
+async function createNewUser(socket, email, userName, password, firstName, lastName) {
     var token = generateId(16);
     return addUser(socket, email, userName, password, firstName, lastName, token);
 }
@@ -43,7 +44,7 @@ function userLoginAuth(socket, userName, password) {
         }
     };
 
-    dynamodb.get(params, (data) => {
+    config.dynamodb.get(params, (data) => {
         if(data){
             if (typeof data.Item != 'undefined' && data.Item.password === password) {
                 var resMap = {
