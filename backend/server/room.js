@@ -2,8 +2,7 @@
 
 const { DynamoDBClient, PutItemCommand, GetItemCommand, DeletItemCommand, BatchGetItemCommand, QueryCommand, ScanCommand, UpdateItemCommand } = require("@aws-sdk/client-dynamodb");
 const dynamoDbClient = new DynamoDBClient({ region: "us-east-1" });
-const { generateId } = require('./helper');
-const { command } = require("yargs");
+const helper = require('./helper');
 
 function unpackPeopleMap(users) {
     var res = []
@@ -16,7 +15,7 @@ function unpackPeopleMap(users) {
 }
 
 function createRoom(socket, roomName, userName) {
-    var roomId = generateId(16);
+    var roomId = helper.generateId(16);
     var users = {};
     users[userName] = {
         M: {
@@ -305,8 +304,8 @@ function fetchAllMessages(socket, msg) {
     }
 }
 
-exports.createRoom = createRoom();
-exports.joinRoom = joinRoom();
-exports.exitRoom = exitRoom();
-exports.fetchAllRooms = fetchAllRooms();
-exports.fetchAllMessages = fetchAllMessages();
+exports.createRoom = createRoom;
+exports.joinRoom = joinRoom;
+exports.exitRoom = exitRoom;
+exports.fetchAllRooms = fetchAllRooms;
+exports.fetchAllMessages = fetchAllMessages;

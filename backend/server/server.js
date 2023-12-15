@@ -3,6 +3,7 @@
 const cors = require('cors');
 const express = require('express');
 const path = require('path');
+require('dotenv').config();
 const HOST = 'localhost';
 
 const app = express();
@@ -17,8 +18,8 @@ const message = require('./message');
 const apiGateway = require('./apiGateway');
 
 io.adapter(redisAdapter({
-    host: config.REDIS_ENDPOINT,
-    port: 6379
+    host: process.env.REDIS_ENDPOINT,
+    port: 6379,
 }));
 
 io.on('connection', (socket) => {
@@ -36,7 +37,7 @@ io.on('connection', (socket) => {
         var firstName = params['firstName'];
         var lastName = params['lastName'];
         socket.emit('signup_response', params);
-        user.createNewUser(socket,email,userName,password,firstName,lastName);
+        user.createNewUser(socket, email, userName, password, firstName, lastName);
     });
 
     socket.on('room', (params) => {

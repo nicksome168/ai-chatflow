@@ -2,7 +2,7 @@
 
 const { DynamoDBClient, PutItemCommand, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const dynamoDbClient = new DynamoDBClient({ region: "us-east-2" });
-const { generateId } = require('./helper')
+const helper = require('./helper')
 const apiGateway = require('./apiGateway');
 
 async function sendMessage(socket, msg) {
@@ -10,7 +10,7 @@ async function sendMessage(socket, msg) {
     var text = msg['text'];
     var userName = msg['userName'];
     var datetime = msg['datetime'];
-    var msgId = makeId(16);
+    var msgId = helper.generateId(16);
 
     var params = {
         TableName: 'messages',
@@ -59,14 +59,14 @@ async function searchMessage(socket, params) {
             "action": "fetchAllMessages",
             "data": res_data,
         });
-    },(error) => {
-                socket.emit('message_response', {
-                    "action": "fetchAllMessages",
-                    "data": [],
-                });
-            });
+    }, (error) => {
+        socket.emit('message_response', {
+            "action": "fetchAllMessages",
+            "data": [],
+        });
+    });
 
 }
 
-exports.sendMessage = sendMessage();
-exports.searchMessage = searchMessage();
+exports.sendMessage = sendMessage;
+exports.searchMessage = searchMessage;

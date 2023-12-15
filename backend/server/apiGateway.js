@@ -1,5 +1,8 @@
 const axios = require('axios');
-const apiEndpoint = API_GATEWAY_ENDPOINT;
+require('dotenv').config()
+const apiEndpoint = process.env.API_GATEWAY_ENDPOINT;
+
+// const apiEndpoint = "https://www.google.com";
 
 async function searchMessages(roomId, message) {
     const params = {

@@ -1,6 +1,7 @@
 "use strict";
 
 const { DynamoDBClient, PutItemCommand, GetItemCommand } = require("@aws-sdk/client-dynamodb");
+const { generateId } = require("./helper");
 const dynamoDbClient = new DynamoDBClient({ region: "us-east-2" });
 
 function addUser(socket, email, userName, password, firstName, lastName, token) {
@@ -30,8 +31,8 @@ function addUser(socket, email, userName, password, firstName, lastName, token) 
         });
 }
 
-function createNewUser(socket, email, userName, password, firstName, lastName){
-    var token = makeid(16);
+function createNewUser(socket, email, userName, password, firstName, lastName) {
+    var token = generateId(16);
     return addUser(socket, email, userName, password, firstName, lastName, token);
 }
 
@@ -77,5 +78,6 @@ function tokenAuth(userName, token) {
     });
 }
 
-exports.userLoginAuth = userLoginAuth();
-exports.tokenAuth = tokenAuth();
+exports.userLoginAuth = userLoginAuth;
+exports.tokenAuth = tokenAuth;
+exports.createNewUser = createNewUser;
