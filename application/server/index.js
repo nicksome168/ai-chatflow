@@ -30,10 +30,10 @@ io.on('connection', (socket) => {
         var password = params['password'];
         var firstName = params['firstName'];
         var lastName = params['lastName'];
-        response = User.createNewUser(socket, email, userName, password, firstName, lastName);
-        socket.emit('signup_response', response);
+        User.createNewUser(socket, email, userName, password, firstName, lastName);
+        
     });
-
+    
     socket.on('joinRoom', ({ room }) => {
         Room.joinRoom(socket, room);
         socket.join(room);
@@ -63,5 +63,3 @@ app.get("/summarise", (req, res) => {
 
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-

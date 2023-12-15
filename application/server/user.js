@@ -14,6 +14,7 @@ function addUser(socket, email, userName, password, firstName, lastName, token) 
             firstName: firstName,
             lastName: lastName,
         }
+
     };
 
     config.dynamodb.put(user, (error) => {
@@ -22,13 +23,14 @@ function addUser(socket, email, userName, password, firstName, lastName, token) 
          console.log("Error: ", error);
         }else{
          var resMap = {
-            "action": "signup",
-            "message": "success"
+            'action': 'signup',
+            'message': 'success'
          };
-         socket.emit('signup_response', resMap);
-         console.log(resMap);
+        console.log("hello "+resMap);
+        socket.emit('signup_response', resMap);
         }
      });
+     
 }
 
 async function createNewUser(socket, email, userName, password, firstName, lastName) {
@@ -54,7 +56,7 @@ function userLoginAuth(socket, userName, password) {
                 socket.emit('login_response', resMap);
             }
            }else{
-            var resMap = {
+             resMap = {
                 "message": "Login Unsuccessful! Try Again"
             };
             socket.emit('login_response', resMap);
