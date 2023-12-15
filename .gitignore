@@ -168,3 +168,6 @@ cython_debug/
 lambda_functions/*/*.zip
 */**/*.zip
 lambda_functions/*/package
+
+/application/server/node_modules
+/application/node_modules

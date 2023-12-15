@@ -14,6 +14,7 @@ function addUser(socket, email, userName, password, firstName, lastName, token) 
             firstName: firstName,
             lastName: lastName,
         }
+
     };
 
     dynamodb.put(user, (error) => {
@@ -21,9 +22,15 @@ function addUser(socket, email, userName, password, firstName, lastName, token) 
         if(error){
          console.log("Error: ", error);
         }else{
-         console.log("user added! success!");
+         var resMap = {
+            'action': 'signup',
+            'message': 'success'
+         };
+        console.log("hello "+resMap);
+        socket.emit('signup_response', resMap);
         }
      });
+     
 }
 
 function createNewUser(socket, email, userName, password, firstName, lastName) {
@@ -49,7 +56,7 @@ function userLoginAuth(socket, userName, password) {
                 socket.emit('login_response', resMap);
             }
            }else{
-            var resMap = {
+             resMap = {
                 "message": "Login Unsuccessful! Try Again"
             };
             socket.emit('login_response', resMap);
