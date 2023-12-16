@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import '../css/login.css'
 
-const socket = io('http://localhost:4000'); // Adjust the URL to match your server
+const socket = io('a9e2107d65c954c52893e93040871de5-dfca6f5438fb8cb5.elb.us-east-1.amazonaws.com:4000'); // Adjust the URL to match your server
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -19,7 +19,7 @@ const Login = () => {
         socket.on('login_response', (response) => {
             if (response.message === 'success') {
                 localStorage.removeItem('user');
-                localStorage.setItem('user', JSON.stringify({'userName': userName}));
+                localStorage.setItem('user', JSON.stringify({ 'userName': userName }));
                 navigate('/select-partner'); // Navigate on successful login
             } else {
                 alert('Login failed'); // Handle login failure
@@ -31,7 +31,7 @@ const Login = () => {
             console.log(response.action)
             if (response.message === 'success') {
                 localStorage.removeItem('user');
-                localStorage.setItem('user', JSON.stringify({'userName': userName}));
+                localStorage.setItem('user', JSON.stringify({ 'userName': userName }));
                 navigate('/select-partner'); // Switch to login view on successful signup
             } else {
                 alert('Signup failed'); // Handle signup failure
@@ -51,7 +51,7 @@ const Login = () => {
 
     const handleSignup = (e) => {
         e.preventDefault();
-        socket.emit('signup', { email,userName, password, firstName, lastName });
+        socket.emit('signup', { email, userName, password, firstName, lastName });
     };
 
     const switchMode = () => {

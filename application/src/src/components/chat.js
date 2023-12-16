@@ -8,7 +8,7 @@ import SummarizeMenu from './summarize';
 const ChatWindow = () => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const userName = JSON.parse(localStorage.getItem('user')).userName;
+    const userName = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '';
     // const [ partner, setPartner ] = useState('');
     const { partner } = useParams();
     const ENDPOINT = 'a9e2107d65c954c52893e93040871de5-dfca6f5438fb8cb5.elb.us-east-1.amazonaws.com:4000';
@@ -20,7 +20,7 @@ const ChatWindow = () => {
     const navigate = useNavigate();
 
 
-    console.log(userName)
+    // console.log(userName)
 
     const handleMenuToggle = () => {
         setShowMenu(!showMenu);
