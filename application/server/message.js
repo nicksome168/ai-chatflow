@@ -2,7 +2,7 @@
 
 const config = require('./aws-config');
 // const lambda = require('./aws-config');
-const {generateId} = require('./helper');
+const { generateId } = require('./helper');
 
 
 function sendMessage(room, sender, message, recipient) {
@@ -20,15 +20,15 @@ function sendMessage(room, sender, message, recipient) {
 
     config.dynamodb.put(params, (error) => {
 
-       if(error){
-        console.log("Error: ", error);
-       }else{
-        console.log("success");
-       }
+        if (error) {
+            console.log("Error: ", error);
+        } else {
+            console.log("success");
+        }
     });
 }
 
-async function summarise(room, messages, userName){
+async function summarise(room, messages, userName) {
     var params = {
         FunctionName: 'lf2-test',
         InvocationType: 'Event', // Use 'Event' for asynchronous invocation
@@ -37,14 +37,14 @@ async function summarise(room, messages, userName){
 
     config.lambda.invoke(params, (err, data) => {
         if (err) {
-          console.error('Error invoking Lambda function:', err);
+            console.error('Error invoking Lambda function:', err);
         } else {
-          // Process the response from the Lambda function
-        //   const response = JSON.parse(data.Payload);
-        //   console.log('Lambda function response:', response);
+            // Process the response from the Lambda function
+            //   const response = JSON.parse(data.Payload);
+            //   console.log('Lambda function response:', response);
         }
-      });
+    });
 }
 
-exports.sendMessage=sendMessage;
-exports.summarise=summarise;
+exports.sendMessage = sendMessage;
+exports.summarise = summarise;
