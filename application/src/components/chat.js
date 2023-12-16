@@ -8,8 +8,9 @@ import SummarizeMenu from './summarize';
 const ChatWindow = () => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
+    const userName = JSON.parse(localStorage.getItem('user')).userName;
+    // const [ partner, setPartner ] = useState('');
     const { partner } = useParams();
-    const username = localStorage.getItem('username');
     const ENDPOINT = 'http://localhost:4000';
     const [socket, setSocket] = useState(null);
     const [showMenu, setShowMenu] = useState(false);
@@ -67,17 +68,16 @@ const ChatWindow = () => {
     }, []);
 
     useEffect(() => {
-        if (!username) {
-            // Redirect to login or handle unauthenticated user
-            console.log('Redirecting to login...');
-            navigate('/select-partner');
-            return;
-        }
+        // if (!userName) {
+        //     // Redirect to login or handle unauthenticated user
+        //     console.log('Redirecting to login...');
+        //     return;
+        // }
 
         const newSocket = io(ENDPOINT);
         setSocket(newSocket);
 
-        const room = username < partner ? `${username}-${partner}` : `${partner}-${username}`;
+        const room = userName < partner ? `${userName}-${partner}` : `${partner}-${userName}`;
         newSocket.emit('joinRoom', { room });
 
         newSocket.on('message', (msg) => {
@@ -87,13 +87,13 @@ const ChatWindow = () => {
         return () => {
             newSocket.disconnect();
         };
-    }, [ENDPOINT, username, partner]);
+    }, [ENDPOINT, userName, partner]);
 
     const sendMessage = (e) => {
         e.preventDefault();
         if (message && socket) {
-            const room = username < partner ? `${username}-${partner}` : `${partner}-${username}`;
-            socket.emit('sendMessage', { room, sender: username, message, recipient: partner });
+            const room = userName < partner ? `${userName}-${partner}` : `${partner}-${userName}`;
+            socket.emit('sendMessage', { room, sender: userName, message, recipient: partner });
             setMessage('');
         }
     };
@@ -110,7 +110,7 @@ const ChatWindow = () => {
             </div>
             <div className="messages-area">
                 {messages.map((msg, index) => (
-                    <div key={index} className={msg.sender === username ? "own-message" : "received-message"}>
+                    <div key={index} className={msg.sender === userName ? "own-message" : "received-message"}>
                         {msg.message}
                     </div>
                 ))}

@@ -18,6 +18,8 @@ const Login = () => {
         // Listen for server responses
         socket.on('login_response', (response) => {
             if (response.message === 'success') {
+                localStorage.removeItem('user');
+                localStorage.setItem('user', JSON.stringify({'userName': userName}));
                 navigate('/select-partner'); // Navigate on successful login
             } else {
                 alert('Login failed'); // Handle login failure
@@ -28,6 +30,8 @@ const Login = () => {
             console.log(response.message)
             console.log(response.action)
             if (response.message === 'success') {
+                localStorage.removeItem('user');
+                localStorage.setItem('user', JSON.stringify({'userName': userName}));
                 navigate('/select-partner'); // Switch to login view on successful signup
             } else {
                 alert('Signup failed'); // Handle signup failure
@@ -38,7 +42,7 @@ const Login = () => {
             socket.off('login_response');
             socket.off('signup_response');
         };
-    }, [navigate]);
+    }, [navigate, userName]);
 
     const handleLogin = (e) => {
         e.preventDefault();
