@@ -33,7 +33,7 @@ const Dashboard = () => {
         <h2>Recently Contacted</h2>
 
         <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: 'lightgrey' }}>
-            <h1>Recent Contacts</h1>
+            
             <ul>
                 {recentContacts.map((contact, index) => (
                     <li key={index}>{contact}</li>
