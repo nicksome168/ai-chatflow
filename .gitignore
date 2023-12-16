@@ -171,3 +171,4 @@ lambda_functions/*/package
 
 /application/server/node_modules
 /application/node_modules
+/application/server/aws-config.js

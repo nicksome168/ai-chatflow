@@ -42,7 +42,7 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        socket.emit('login', { email, password });
+        socket.emit('login', { userName, password });
     };
 
     const handleSignup = (e) => {

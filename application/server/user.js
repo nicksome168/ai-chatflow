@@ -41,16 +41,18 @@ function userLoginAuth(socket, userName, password) {
     var params = {
         TableName: 'users',
         Key: {
-            userName: { S: userName }
+            userName: userName
         }
     };
 
-    config.dynamodb.get(params, (data) => {
+    config.dynamodb.get(params, (error, data) => {
+        console.log("data: ",data)
+        console.log("params: ",params)
         if(data){
             if (typeof data.Item != 'undefined' && data.Item.password === password) {
                 var resMap = {
-                    "message": "Success!",
-                    "userName": data.Item.token.userName
+                    "message": "success",
+                    "userName": data.Item.userName
                 };
                 socket.emit('login_response', resMap);
             }
