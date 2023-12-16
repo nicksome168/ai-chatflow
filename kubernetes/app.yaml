@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  selector:
+    matchLabels:
+      app: app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: frontend
+          image: nicksome/ai-chatflow-frontend:1.0
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              value: AKIA3EA2SMLWMK7EC7NZ
+            - name: AWS_SECRET_ACCESS_KEY
+              value: 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
+        - name: backend
+          image: nicksome/ai-chatflow-backend:1.0
+          ports:
+            - containerPort: 4000
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-backend
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+spec:
+  selector:
+    app: app
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-frontend
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+spec:
+  selector:
+    app: app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
