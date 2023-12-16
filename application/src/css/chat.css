@@ -1,57 +1,57 @@
 .chat-container {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px auto;
-    max-width: 600px;
+    border: 1px solid #ccc !important;
+    padding: 20px !important;
+    border-radius: 8px !important;
+    margin: 20px auto !important;
+    max-width: 600px !important;
 }
 
 .messages-area {
-    height: 300px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+    height: 300px !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 10px !important;
 }
 
 .own-message {
-    background-color: blue;
-    color: white;
-    padding: 10px;
-    border-radius: 20px;
-    margin: 5px 0;
-    max-width: 70%;
-    align-self: flex-end;
+    background-color: blue !important;
+    color: white !important;
+    padding: 10px !important;
+    border-radius: 20px !important;
+    margin: 5px 0 !important;
+    max-width: 70% !important;
+    align-self: flex-end !important;
 }
 
 .received-message {
-    background-color: grey;
-    color: white;
-    padding: 10px;
-    border-radius: 20px;
-    margin: 5px 0;
-    max-width: 70%;
-    align-self: flex-start;
+    background-color: grey !important;
+    color: white !important;
+    padding: 10px !important;
+    border-radius: 20px !important;
+    margin: 5px 0 !important;
+    max-width: 70% !important;
+    align-self: flex-start !important;
 }
 
 .input-form {
-    display: flex;
-    margin-top: 20px;
+    display: flex !important;
+    margin-top: 20px !important;
 }
 
 .message-input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    margin-right: 10px;
+    flex: 1 !important;
+    padding: 10px !important;
+    border-radius: 4px !important;
+    border: 1px solid #ccc !important;
+    margin-right: 10px !important;
 }
 
 .send-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    background-color: blue;
-    color: white;
-    cursor: pointer;
+    padding: 10px 15px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    background-color: blue !important;
+    color: white !important;
+    cursor: pointer !important;
 }

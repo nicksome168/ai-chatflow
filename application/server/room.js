@@ -11,7 +11,8 @@ function joinRoom(socket, room) {
         Item: {
             room: room,
             user1: room.split("-")[0],
-            user2: room.split("-")[1]
+            user2: room.split("-")[1],
+            timestamp: Date.now()
         }
     };
     config.dynamodb.put(params, (error) => {

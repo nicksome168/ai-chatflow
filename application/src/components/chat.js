@@ -20,7 +20,7 @@ const ChatWindow = () => {
     const navigate = useNavigate();
 
 
-    console.log(username)
+    console.log(userName)
 
     const handleMenuToggle = () => {
         setShowMenu(!showMenu);
