@@ -26,7 +26,6 @@ const Dashboard = () => {
         return () => socket.off('recentContacts');
     }, [userName]);
 
-
     return (
         
         <div style={{ padding: '20px' }}>
