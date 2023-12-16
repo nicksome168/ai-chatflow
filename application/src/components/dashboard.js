@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
     const [partner, setPartner] = useState('');
+    const userName = JSON.parse(localStorage.getItem('user')).userName;
     const navigate = useNavigate();
 
     const handlePartnerSelection = (e) => {
