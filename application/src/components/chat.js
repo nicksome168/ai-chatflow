@@ -79,6 +79,7 @@ const ChatWindow = () => {
 
         const room = userName < partner ? `${userName}-${partner}` : `${partner}-${userName}`;
         newSocket.emit('joinRoom', { room });
+        localStorage.setItem('room', JSON.stringify({'roomName': room}));
 
         newSocket.on('message', (msg) => {
             setMessages((msgs) => [...msgs, msg]);

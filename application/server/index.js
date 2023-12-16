@@ -4,16 +4,17 @@ const socketIo = require('socket.io');
 const Room = require('./room');
 const Message = require('./message');
 const User = require('./user');
+const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: "*", // Adjust as per your CORS policy
+        origin: "*", 
         methods: ["GET", "POST"]
     }
 });
-
+app.use(cors());
 io.on('connection', (socket) => {
     console.log('New client connected:', socket.id);
 
@@ -59,6 +60,7 @@ app.get("/summarise", (req, res) => {
     const response = Message.summarise(room, messages, userName);
 
     res.json(response);
+    console.log("exited function")
 });
 
 const PORT = process.env.PORT || 4000;
