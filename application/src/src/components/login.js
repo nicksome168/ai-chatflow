@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import '../css/login.css'
-
-const socket = io('a9e2107d65c954c52893e93040871de5-dfca6f5438fb8cb5.elb.us-east-1.amazonaws.com:4000'); // Adjust the URL to match your server
+const ENDPOINT = process.env.BACKEND_URL || 'http://localhost:4000';
+const socket = io(ENDPOINT);
 
 const Login = () => {
     const [email, setEmail] = useState('');

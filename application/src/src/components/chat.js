@@ -11,7 +11,7 @@ const ChatWindow = () => {
     const userName = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '';
     // const [ partner, setPartner ] = useState('');
     const { partner } = useParams();
-    const ENDPOINT = 'a9e2107d65c954c52893e93040871de5-dfca6f5438fb8cb5.elb.us-east-1.amazonaws.com:4000';
+    const ENDPOINT = process.env.BACKEND_URL || 'http://localhost:4000';
     const [socket, setSocket] = useState(null);
     const [showMenu, setShowMenu] = useState(false);
     const [showTranslate, setShowTranslate] = useState(false); // State to control TranslateMenu visibility
@@ -79,7 +79,7 @@ const ChatWindow = () => {
 
         const room = userName < partner ? `${userName}-${partner}` : `${partner}-${userName}`;
         newSocket.emit('joinRoom', { room });
-        localStorage.setItem('room', JSON.stringify({'roomName': room}));
+        localStorage.setItem('room', JSON.stringify({ 'roomName': room }));
 
         newSocket.on('message', (msg) => {
             setMessages((msgs) => [...msgs, msg]);

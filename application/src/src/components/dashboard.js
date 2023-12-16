@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
-const socket = io('a05e4bdedb5854296ab1d72ec601226b-e24303a11e28619a.elb.us-east-1.amazonaws.com:3000');
+const ENDPOINT = process.env.FRONTEND_URL || 'http://localhost:3000';
+const socket = io(ENDPOINT);
 
 const Dashboard = () => {
     const [partner, setPartner] = useState('');

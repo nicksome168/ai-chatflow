@@ -11,7 +11,8 @@ const SummarizeMenu = ({ onClose }) => {
     async function handleViewSummary(room, userName) {
         try {
             // Construct the URL with query parameters
-            const url = "http://localhost:4000/summarise?room="+room+"&userName="+userName;
+            const ENDPOINT = process.env.BACKEND_URL || 'http://localhost:4000';
+            const url = ENDPOINT + "/summarise?room="+room+"&userName="+userName;
             
             console.log(url)
 
