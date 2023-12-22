@@ -5,9 +5,11 @@ const Room = require('./room');
 const Message = require('./message');
 const User = require('./user');
 const cors = require('cors');
-
+const bodyParser = require('body-parser');
 const app = express();
 const server = http.createServer(app);
+
+
 const io = socketIo(server, {
     cors: {
         origin: "*", 
@@ -15,6 +17,8 @@ const io = socketIo(server, {
     }
 });
 app.use(cors());
+app.use(bodyParser.json());
+app.use(express.json());
 io.on('connection', (socket) => {
     console.log('New client connected:', socket.id);
 
@@ -62,6 +66,25 @@ app.get("/summarise", (req, res) => {
     res.json(response);
     console.log("exited function")
 });
+
+// app.post('/translate',async (req, res) => {
+//     console.log(req.body)
+//     const { text, fromLanguage, toLanguage } = req.body;
+
+//     const params = {
+//         Text: text,
+//         SourceLanguageCode: fromLanguage,
+//         TargetLanguageCode: toLanguage
+//     };
+
+//     try {
+//         const translated = await translate.translateText(params).promise();
+//         res.json({ translatedText: translated.TranslatedText });
+//     } catch (error) {
+//         console.error('Error during translation:', error);
+//         res.status(500).send('Error during translation');
+//     }
+// });
 
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

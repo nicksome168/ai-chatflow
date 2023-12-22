@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 const SummarizeMenu = ({ onClose }) => {
     const userName = JSON.parse(localStorage.getItem('user')).userName;
-    const [summaryOption, setSummaryOption] = useState('all');
     const room = JSON.parse(localStorage.getItem('room')).roomName
-
+    const [summaryOption, setSummaryOption] = useState('all');
+    
     console.log(room)
     
 
