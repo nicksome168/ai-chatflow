@@ -51,9 +51,9 @@ io.on('connection', (socket) => {
         console.log(`Message from ${sender} in room ${room}: ${message}`);
     });
 
-    socket.on('getRecentContacts', ({user1}) => {
+    socket.on('getRecentContacts', ({userName}) => {
         console.log("recent contact triggered");
-        User.getAllRooms(socket, user1);
+        User.getAllRooms(socket, userName);
     });
 
     socket.on('summarise',({room, userName}) => {
