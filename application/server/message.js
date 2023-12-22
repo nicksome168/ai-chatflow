@@ -28,7 +28,7 @@ function sendMessage(room, sender, message, recipient) {
     });
 }
 
-async function summarise(room, messages, userName) {
+async function summarise(socket, room, messages, userName) {
     var params = {
         FunctionName: 'lf2-test',
         InvocationType: 'Event', // Use 'Event' for asynchronous invocation
@@ -39,6 +39,11 @@ async function summarise(room, messages, userName) {
         if (err) {
             console.error('Error invoking Lambda function:', err);
         } else {
+            var resMap = {
+                'action': 'summarise',
+                'message': 'success'
+             };
+            socket.emit('summarise_response', resMap);
             // Process the response from the Lambda function
             //   const response = JSON.parse(data.Payload);
             //   console.log('Lambda function response:', response);

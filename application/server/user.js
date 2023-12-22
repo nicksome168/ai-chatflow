@@ -65,5 +65,29 @@ function userLoginAuth(socket, userName, password) {
     });
 }
 
+function getAllRooms(socket, user1){
+    const tableName = 'rooms';
+    const attributeName = 'user1';
+    const params = {
+        TableName: tableName,
+        FilterExpression: `${attributeName} = :value`,
+        ExpressionAttributeValues: {
+          ':value': user1,
+        },
+      };
+      
+      // Perform the scan operation
+      config.dynamodb.scan(params, (err, data) => {
+        if (err) {
+          console.error('Error scanning DynamoDB table:', err);
+        } else {
+          console.log("Entire Data: ", data);
+          console.log('Scanned items:', data.Items);
+          socket.emit('recentContacts', data.Items)
+        }
+      });
+}
+
 exports.userLoginAuth = userLoginAuth;
 exports.createNewUser = createNewUser;
+exports.getAllRooms = getAllRooms;

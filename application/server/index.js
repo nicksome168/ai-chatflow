@@ -51,21 +51,32 @@ io.on('connection', (socket) => {
         console.log(`Message from ${sender} in room ${room}: ${message}`);
     });
 
+    socket.on('getRecentContacts', ({user1}) => {
+        console.log("recent contact triggered");
+        User.getAllRooms(socket, user1);
+    });
+
+    socket.on('summarise',({room, userName}) => {
+        const response = Message.summarise(socket, room, " ", userName);
+        console.log("exited function");
+    });
+
     socket.on('disconnect', () => {
         console.log('Client disconnected:', socket.id);
     });
+
 });
 
-app.get("/summarise", (req, res) => {
-    console.log("entered function");
-    var room = req.query.room; // Use req.query to get parameters from the query string
-    var messages = req.query.messages; // Use req.query to get parameters from the query string
-    var userName = req.query.userName;
-    const response = Message.summarise(room, messages, userName);
+// app.get("/summarise", (req, res) => {
+//     console.log("entered function");
+//     var room = req.query.room; // Use req.query to get parameters from the query string
+//     var messages = req.query.messages; // Use req.query to get parameters from the query string
+//     var userName = req.query.userName;
+//     const response = Message.summarise(room, messages, userName);
 
-    res.json(response);
-    console.log("exited function")
-});
+//     res.json(response);
+//     console.log("exited function");
+// });
 
 // app.post('/translate',async (req, res) => {
 //     console.log(req.body)
