@@ -19,8 +19,11 @@ const Dashboard = () => {
     const [recentContacts, setRecentContacts] = useState([]);
 
     useEffect(() => {
+        console.log("is it working??");
         socket.emit('getRecentContacts', { userName });
+        console.log("did it trigger??");
         socket.on('recentContacts', (contacts) => {
+            console.log("contacts??: ",contacts);
             setRecentContacts(contacts);
         });
 
