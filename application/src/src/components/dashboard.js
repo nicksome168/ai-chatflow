@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
-const ENDPOINT = process.env.FRONTEND_URL || 'http://localhost:3000';
+const ENDPOINT = process.env.BACKEND_URL || 'http://localhost:4000';
 const socket = io(ENDPOINT);
 
 const Dashboard = () => {
     const [partner, setPartner] = useState('');
     const userName = JSON.parse(localStorage.getItem('user')).userName;
+    const [recentContacts, setRecentContacts] = useState([]);
     const navigate = useNavigate();
 
     const handlePartnerSelection = (e) => {
@@ -16,18 +17,22 @@ const Dashboard = () => {
         }
     };
 
-    const [recentContacts, setRecentContacts] = useState([]);
+    const handleRecentlyContacts = () => {
+        console.log("username: ",userName);
+        socket.emit('getRecentContacts', { userName });
+        // console.log(param);
+    };
 
     useEffect(() => {
-        console.log("is it working??");
-        socket.emit('getRecentContacts', { userName });
-        console.log("did it trigger??");
-        socket.on('recentContacts', (contacts) => {
-            console.log("contacts??: ",contacts);
-            setRecentContacts(contacts);
-        });
 
-        return () => socket.off('recentContacts');
+        handleRecentlyContacts();
+        // Listen for the response from the server
+        const handleRecentContacts = (contacts) => {
+            setRecentContacts(contacts);
+        };
+
+        socket.on('recentContacts', handleRecentContacts);
+        return() => socket.off('recentContacts');
     }, [userName]);
 
     return (
@@ -40,7 +45,7 @@ const Dashboard = () => {
 
                     <ul>
                         {recentContacts.map((contact, index) => (
-                            <li key={index}>{contact}</li>
+                            <li key={index}>{contact.room}</li>
                         ))}
                     </ul>
                 </div>

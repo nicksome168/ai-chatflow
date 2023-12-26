@@ -25,7 +25,7 @@ function addUser(socket, email, userName, password, firstName, lastName, token) 
             'action': 'signup',
             'message': 'success'
          };
-        console.log("hello "+resMap);
+        // console.log("hello "+resMap);
         socket.emit('signup_response', resMap);
         }
      });
@@ -46,8 +46,8 @@ function userLoginAuth(socket, userName, password) {
     };
 
     config.dynamodb.get(params, (error, data) => {
-        console.log("data: ",data)
-        console.log("params: ",params)
+        // console.log("data: ",data)
+        // console.log("params: ",params)
         if(data){
             if (typeof data.Item != 'undefined' && data.Item.password === password) {
                 var resMap = {
@@ -66,11 +66,11 @@ function userLoginAuth(socket, userName, password) {
 }
 
 function getAllRooms(socket, user1){
+    console.log("user1 is: ",user1);
     const tableName = 'rooms';
-    const attributeName = 'user1';
     const params = {
         TableName: tableName,
-        FilterExpression: `${attributeName} = :value`,
+        FilterExpression: `user1 = :value OR user2 = :value`,
         ExpressionAttributeValues: {
           ':value': user1,
         },
