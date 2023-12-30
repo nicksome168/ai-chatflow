@@ -54,3 +54,6 @@ uninstall eks cluster
 cd terraform
 terraform destroy -var-file ../variables.tfvars
 ```
+
+### Architecture Diagram
+![image](https://github.com/nicksome168/ai-chatflow/assets/46374452/55c46cf3-fd7c-4b01-b0a2-5ff6cd7b017f)
