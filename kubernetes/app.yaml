@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: nicksome/ai-chatflow-frontend:4.0
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+          env:
+            - name: FRONTEND_URL
+              value: ac5438a11415440b0ac569b66d5f097f-357555a6854fe3ae.elb.us-east-1.amazonaws.com:3000
+            - name: BACKEND_URL
+              value: a61b51ef5a7c34ad397a4e578e46775b-2c0abc26e383bf31.elb.us-east-1.amazonaws.com:4000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: nicksome/ai-chatflow-backend:4.0
+          ports:
+            - containerPort: 4000
+          imagePullPolicy: Always
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              value: AKIA3EA2SMLWMK7EC7NZ
+            - name: AWS_SECRET_ACCESS_KEY
+              value: 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
+            - name: BACKEND_URL
+              value: a61b51ef5a7c34ad397a4e578e46775b-2c0abc26e383bf31.elb.us-east-1.amazonaws.com:4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-backend
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-frontend
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
